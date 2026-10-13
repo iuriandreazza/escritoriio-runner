@@ -19,6 +19,9 @@ const FUSES_TOOL = '@electron/fuses@1.8.0';
 const COLOUR = new RegExp(`${String.fromCharCode(27)}\\[[0-9;]*m`, 'g');
 const withoutColours = (text) => text.replace(COLOUR, '');
 
+// With a shell, the arguments are one string: a path with a space in it ("Escritoriio Runner.exe") has to be quoted or it is read as two.
+export const forShell = (argument, shell) => (shell ? `"${argument.replaceAll('"', '\\"')}"` : argument);
+
 export function fuseProblems(output) {
   const states = new Map([...withoutColours(output).matchAll(/^\s*(\w+) is (\w+)\s*$/gm)].map((match) => [match[1], match[2]]));
   return Object.entries(REQUIRED).flatMap(([name, wanted]) => {
@@ -33,7 +36,8 @@ function main(app) {
     return 2;
   }
   // Windows needs a shell to run the .cmd that npx is there.
-  const read = spawnSync('npx', ['--yes', FUSES_TOOL, 'read', '--app', app], { encoding: 'utf8', shell: process.platform === 'win32', env: { ...process.env, NO_COLOR: '1' } });
+  const shell = process.platform === 'win32';
+  const read = spawnSync('npx', ['--yes', FUSES_TOOL, 'read', '--app', forShell(app, shell)], { encoding: 'utf8', shell, env: { ...process.env, NO_COLOR: '1' } });
   process.stdout.write(read.stdout ?? '');
   if (read.status !== 0) {
     console.error(`The fuses could not be read: ${read.stderr || read.error?.message || 'the tool failed'}`);

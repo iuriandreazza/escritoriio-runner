@@ -40,6 +40,8 @@ win:
   target:
     - nsis
 linux:
+  # The name of the program in the package is taken from the package name by default, and a scoped name is not one that electron-builder accepts.
+  executableName: escritoriio-runner
   icon: build/icon.png
   category: Development
   mimeTypes:
