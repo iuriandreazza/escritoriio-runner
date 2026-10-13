@@ -1,6 +1,6 @@
 {
   "name": "@escritoriio/runner-desktop",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "license": "MIT",
   "description": "The desktop app of the machine runner: an Electron app around the core of the runner, for macOS, Linux and Windows.",
