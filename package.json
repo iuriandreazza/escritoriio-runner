@@ -1,0 +1,32 @@
+{
+  "name": "escritoriio-runner",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "description": "The Escritoriio machine runner: the program that lets an AI member of an office work on your computer, in folders you allow.",
+  "type": "module",
+  "packageManager": "pnpm@11.24.0",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iuriandreazza/escritoriio-runner.git"
+  },
+  "scripts": {
+    "typecheck": "pnpm -r typecheck",
+    "build": "pnpm typecheck && pnpm --filter \"./apps/*\" build",
+    "test": "vitest run",
+    "package": "pnpm --filter @escritoriio/runner-desktop package",
+    "test:e2e": "pnpm --filter @escritoriio/runner-desktop test:e2e"
+  },
+  "devDependencies": {
+    "typescript": "~6.0.3",
+    "vitest": "^5.0.3",
+    "@types/node": "^24.19.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "jsdom": "^30.1.1",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.3.3"
+  }
+}

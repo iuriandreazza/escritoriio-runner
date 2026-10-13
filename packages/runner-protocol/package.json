@@ -1,0 +1,17 @@
+{
+  "name": "@escritoriio/runner-protocol",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "description": "What a machine runner and the office server say to each other. It imports nothing else of the workspace: it is published with the runner.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "zod": "^4.1.0"
+  }
+}

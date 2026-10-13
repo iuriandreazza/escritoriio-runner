@@ -1,0 +1,57 @@
+# Packaging of the desktop app, run by `pnpm package` and never by the root build (it needs signing accounts to make something a system trusts).
+# The updater reads the `publish` block below: the public releases of the runner, which need no token.
+appId: com.escritoriio.runner
+productName: Escritoriio Runner
+# No spaces in a file name: GitHub turns them into dots when a file is uploaded, and the update feed would then name a file that is not there.
+artifactName: escritoriio-runner-${version}-${os}-${arch}.${ext}
+directories:
+  output: release
+files:
+  - dist/**
+  - package.json
+  # The window of Windows and Linux shows it (macOS takes the icon of the bundle).
+  - build/icon.png
+# The Claude Agent SDK is inside the app and is not MIT: the notice that says so travels with it, beside the app's resources.
+extraResources:
+  - from: ../runner/NOTICE.md
+    to: NOTICE.md
+publish:
+  provider: github
+  owner: iuriandreazza
+  repo: escritoriio-runner
+protocols:
+  - name: Escritoriio pairing
+    schemes:
+      - escritoriio
+mac:
+  icon: build/icon.icns
+  category: public.app-category.developer-tools
+  hardenedRuntime: true
+  # A file of its own, so that the app gets what Electron needs under the hardened runtime and nothing more (the default of electron-builder also lets
+  # the dynamic linker read environment variables, which Electron does not need).
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  # The zip is what the updater reads on macOS; the disk image is what a person downloads.
+  target:
+    - dmg
+    - zip
+win:
+  icon: build/icon.ico
+  target:
+    - nsis
+linux:
+  icon: build/icon.png
+  category: Development
+  mimeTypes:
+    - x-scheme-handler/escritoriio
+  target:
+    - AppImage
+    - deb
+# What the app does not use of Electron is switched off, so that a stolen copy of the program cannot be made to run other code.
+electronFuses:
+  runAsNode: false
+  enableNodeOptionsEnvironmentVariable: false
+  enableNodeCliInspectArguments: false
+  enableEmbeddedAsarIntegrityValidation: true
+  onlyLoadAppFromAsar: true
+  grantFileProtocolExtraPrivileges: false

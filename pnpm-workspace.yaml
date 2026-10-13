@@ -1,0 +1,27 @@
+packages:
+  - apps/*
+  - packages/*
+
+# Supply chain: never install a release younger than a day (in minutes), and fail instead of
+# quietly making an exception. A freshly published package is where compromises usually land.
+minimumReleaseAge: 1440
+minimumReleaseAgeStrict: true
+
+# The Claude Code adapter of the runner drives the `claude` the member already has installed and logged in (its path is handed to the SDK),
+# so the SDK's own copies of that program, one package per platform of about 240 MB each, are never wanted.
+ignoredOptionalDependencies:
+  - '@anthropic-ai/claude-agent-sdk-darwin-arm64'
+  - '@anthropic-ai/claude-agent-sdk-darwin-x64'
+  - '@anthropic-ai/claude-agent-sdk-linux-arm64'
+  - '@anthropic-ai/claude-agent-sdk-linux-arm64-musl'
+  - '@anthropic-ai/claude-agent-sdk-linux-x64'
+  - '@anthropic-ai/claude-agent-sdk-linux-x64-musl'
+  - '@anthropic-ai/claude-agent-sdk-win32-arm64'
+  - '@anthropic-ai/claude-agent-sdk-win32-x64'
+
+# Build scripts of dependencies run only when named here (strictDepBuilds).
+allowBuilds:
+  # Downloads the Electron binary of the desktop app (apps/runner-desktop), which is what the app runs on and what its end-to-end smoke test drives.
+  electron: true
+  # Only builds Squirrel installers for Windows, which the desktop app does not make (it ships an NSIS installer): its script is not wanted.
+  electron-winstaller: false
