@@ -1,12 +1,15 @@
 {
   "name": "@escritoriio/runner-desktop",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": true,
   "license": "MIT",
   "description": "The desktop app of the machine runner: an Electron app around the core of the runner, for macOS, Linux and Windows.",
   "type": "module",
   "main": "dist/main/index.js",
-  "author": "iuriandreazza",
+  "author": {
+    "name": "Iuri Andreazza",
+    "email": "iuriandreazza@users.noreply.github.com"
+  },
   "engines": {
     "node": ">=22.18"
   },
@@ -34,5 +37,6 @@
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "vite": "^8.3.1"
-  }
+  },
+  "homepage": "https://github.com/iuriandreazza/escritoriio-runner"
 }
